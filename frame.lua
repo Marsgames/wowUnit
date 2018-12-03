@@ -11,30 +11,37 @@ function wowUnit.UI:InitializeUI()
         mainFrame:SetToplevel(true)
         mainFrame:ClearAllPoints()
         mainFrame:SetPoint("CENTER")
-        mainFrame:SetBackdrop({
-            bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-            tileSize = 32,
-            edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-            tile = 1,
-            edgeSize = 32,
-            insets= {
-                top = 12,
-                right = 12,
-                left = 11,
-                bottom = 11
+        mainFrame:SetBackdrop(
+            {
+                bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+                tileSize = 32,
+                edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+                tile = 1,
+                edgeSize = 32,
+                insets = {
+                    top = 12,
+                    right = 12,
+                    left = 11,
+                    bottom = 11
+                }
             }
-        })
+        )
         mainFrame:SetHeight(460)
         mainFrame:SetWidth(460)
         mainFrame:EnableMouse(true)
-        local titleRegion = mainFrame:CreateTitleRegion()
-        titleRegion:SetAllPoints(mainFrame)
+        -- local titleRegion = mainFrame:CreateTitleRegion()
+        -- titleRegion:SetAllPoints(mainFrame)
 
         local closeButton = CreateFrame("Button", "$parentCloseButton", mainFrame, "UIPanelCloseButton")
         closeButton:SetWidth(30)
         closeButton:SetHeight(30)
         closeButton:SetPoint("TOPRIGHT", mainFrame, "TOPRIGHT", -4, -4)
-        closeButton:SetScript("OnClick", function(...) mainFrame:Hide(); end)
+        closeButton:SetScript(
+            "OnClick",
+            function(...)
+                mainFrame:Hide()
+            end
+        )
 
         local titleText = mainFrame:CreateFontString(nil, "BACKGROUND", "GameFontHighlight")
         titleText:SetPoint("TOP", mainFrame, "TOP", 0, -15)
@@ -54,18 +61,18 @@ function wowUnit.UI:InitializeUI()
 end
 
 function wowUnit.UI:SetTestSuiteName(name)
-    mainFrame.testText:SetText("Testing \""..wowUnit.testSuiteName.."\"")
+    mainFrame.testText:SetText('Testing "' .. wowUnit.testSuiteName .. '"')
 end
 
 function wowUnit.UI:AddTestCategory()
-    local categoryFrame = _G["wowUnitTestCategory"..wowUnit.currentCategoryIndex]
+    local categoryFrame = _G["wowUnitTestCategory" .. wowUnit.currentCategoryIndex]
 
     if (not categoryFrame) then
-        categoryFrame = CreateFrame("Frame", "wowUnitTestCategory"..wowUnit.currentCategoryIndex, wowUnitTestsScrollChild, "wowUnitTestCategoryFrameTemplate")
+        categoryFrame = CreateFrame("Frame", "wowUnitTestCategory" .. wowUnit.currentCategoryIndex, wowUnitTestsScrollChild, "wowUnitTestCategoryFrameTemplate")
         if (wowUnit.currentCategoryIndex == 1) then
             categoryFrame:SetPoint("TOPLEFT", wowUnitTestsScrollChild, "TOPLEFT", 2, -2)
         else
-            categoryFrame:SetPoint("TOPLEFT", _G["wowUnitTestCategory"..(wowUnit.currentCategoryIndex - 1)], "BOTTOMLEFT", 0, -2)
+            categoryFrame:SetPoint("TOPLEFT", _G["wowUnitTestCategory" .. (wowUnit.currentCategoryIndex - 1)], "BOTTOMLEFT", 0, -2)
         end
         categoryFrame:SetPoint("RIGHT", wowUnitTestsScrollChild, "RIGHT", -2, 0)
         categoryFrame.catID = wowUnit.currentCategoryIndex
@@ -80,23 +87,23 @@ function wowUnit.UI:AddTestCategory()
 end
 
 function wowUnit.UI:UpdateCurrentTestResults(resultText)
-    local categoryFrame = _G["wowUnitTestCategory"..wowUnit.currentCategoryIndex]
-    local testFrame = _G[categoryFrame:GetName().."Test"..wowUnit.currentTestIndex]
-    _G[testFrame:GetName().."StatText"]:SetText(resultText)
+    local categoryFrame = _G["wowUnitTestCategory" .. wowUnit.currentCategoryIndex]
+    local testFrame = _G[categoryFrame:GetName() .. "Test" .. wowUnit.currentTestIndex]
+    _G[testFrame:GetName() .. "StatText"]:SetText(resultText)
 end
 
 function wowUnit.UI:UpdateCurrentTestCategoryResults(resultText)
-    local categoryFrame = _G["wowUnitTestCategory"..wowUnit.currentCategoryIndex]
+    local categoryFrame = _G["wowUnitTestCategory" .. wowUnit.currentCategoryIndex]
     categoryFrame.NameText:SetText(resultText)
 end
 
 function wowUnit.UI:ExpandCurrentCategory()
-    local categoryFrame = _G["wowUnitTestCategory"..wowUnit.currentCategoryIndex]
+    local categoryFrame = _G["wowUnitTestCategory" .. wowUnit.currentCategoryIndex]
     wowUnit.UI:ExpandTestCategoryFrame(categoryFrame)
 end
 
 function wowUnit.UI:CollapseCurrentCategory()
-    local categoryFrame = _G["wowUnitTestCategory"..wowUnit.currentCategoryIndex]
+    local categoryFrame = _G["wowUnitTestCategory" .. wowUnit.currentCategoryIndex]
     wowUnit.UI:CollapseTestCategoryFrame(categoryFrame)
 end
 
@@ -116,8 +123,8 @@ function wowUnit.UI:CollapseTestCategoryFrame(statGroup)
     statGroup.CollapsedIcon:Show()
     statGroup.ExpandedIcon:Hide()
     local i = 1
-    while (_G[statGroup:GetName().."Test"..i]) do
-        _G[statGroup:GetName().."Test"..i]:Hide()
+    while (_G[statGroup:GetName() .. "Test" .. i]) do
+        _G[statGroup:GetName() .. "Test" .. i]:Hide()
         i = i + 1
     end
     statGroup:SetHeight(18)
@@ -133,15 +140,15 @@ function wowUnit.UI:UpdateTestCategoryFrame(statGroup)
     local i = 1
     local totalHeight = statGroup.NameText:GetHeight() + 10
     for i = 1, #currentCategory.tests do
-        local statFrame = _G[statGroup:GetName().."Test"..i]
+        local statFrame = _G[statGroup:GetName() .. "Test" .. i]
 
         if not statFrame then
-            statFrame = CreateFrame("Button", statGroup:GetName().."Test"..i, statGroup, "wowUnitTestFrameTemplate")
-            statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName().."Test"..(i - 1)], "BOTTOMLEFT", 0, 0)
-            statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName().."Test"..(i - 1)], "BOTTOMRIGHT", 0, 0)
+            statFrame = CreateFrame("Button", statGroup:GetName() .. "Test" .. i, statGroup, "wowUnitTestFrameTemplate")
+            statFrame:SetPoint("TOPLEFT", _G[statGroup:GetName() .. "Test" .. (i - 1)], "BOTTOMLEFT", 0, 0)
+            statFrame:SetPoint("TOPRIGHT", _G[statGroup:GetName() .. "Test" .. (i - 1)], "BOTTOMRIGHT", 0, 0)
         end
 
-        _G[statFrame:GetName().."Label"]:SetText(currentCategory.tests[i].title)
+        _G[statFrame:GetName() .. "Label"]:SetText(currentCategory.tests[i].title)
         --_G[statFrame:GetName().."StatText"]:SetText(--[[TODO]]"")
         statFrame:Show()
         statFrame.test = currentCategory.tests[i]
@@ -151,7 +158,7 @@ function wowUnit.UI:UpdateTestCategoryFrame(statGroup)
 
         if (i % 2 == 0) then
             if (not statFrame.Bg) then
-                statFrame.Bg = statFrame:CreateTexture(statFrame:GetName().."Bg", "BACKGROUND")
+                statFrame.Bg = statFrame:CreateTexture(statFrame:GetName() .. "Bg", "BACKGROUND")
                 statFrame.Bg:SetPoint("LEFT", statGroup, "LEFT", 1, 0)
                 statFrame.Bg:SetPoint("RIGHT", statGroup, "RIGHT", 0, 0)
                 statFrame.Bg:SetPoint("TOP")
@@ -172,8 +179,8 @@ function wowUnit.UI:UpdateTestCategoryFrame(statGroup)
 
     -- hide extra statframes from old testing
     i = #currentCategory.tests + 1
-    while (_G[statGroup:GetName().."Test"..i]) do
-        _G[statGroup:GetName().."Test"..i]:Hide()
+    while (_G[statGroup:GetName() .. "Test" .. i]) do
+        _G[statGroup:GetName() .. "Test" .. i]:Hide()
         i = i + 1
     end
 end
