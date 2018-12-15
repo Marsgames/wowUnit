@@ -1,5 +1,5 @@
 wowUnit is a [unit testing](http://en.wikipedia.org/wiki/Unit_testing "see Wikipedia")
-framework intended to be used for AddOn development in World of Warcraft made by [Mirroar](https://github.com/Mirroar) and updated by [Fulgerul](https://github.com/fulgerul). I only intend to make it work for the last update of WoW. All the work was done by Mirroar and he is the one who must be thank.
+framework intended to be used for AddOn development in World of Warcraft made by [Mirroar](https://github.com/Mirroar) and updated by [Fulgerul](https://github.com/fulgerul). I only intend to make it work for the latest WoW update. All the work was done by Mirroar and Fulgerul, and they are the ones who must be thank.
 
 Example
 =======
